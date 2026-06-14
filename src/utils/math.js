@@ -12,6 +12,9 @@
 function add(a, b) {
   // TODO: Implement addition
   // Hint: Return the sum of a and b
+  let sum = a + b;
+  console.log(`The sum of ${a} and ${b} is ${sum}`);
+  return sum;
 }
 
 /**
@@ -23,6 +26,9 @@ function add(a, b) {
 function subtract(a, b) {
   // TODO: Implement subtraction
   // Hint: Return a minus b
+  let difference = a - b;
+  console.log(`The difference of ${a} and ${b} is ${difference}`);
+  return difference;
 }
 
 /**
@@ -34,6 +40,9 @@ function subtract(a, b) {
 function multiply(a, b) {
   // TODO: Implement multiplication
   // Hint: Return the product of a and b
+  let product = a * b;
+  console.log(`The product of ${a} and ${b} is ${product}`);
+  return product;
 }
 
 /**
@@ -46,6 +55,13 @@ function divide(a, b) {
   // TODO: Implement division
   // Hint: Check if b is zero first to avoid division by zero error
   // Return an appropriate value or throw an error if b is zero
+  if (b === 0) {
+    console.error("Error: Division by zero is not allowed.");
+    return null; // or you could throw an error
+  }
+  let quotient = a / b;
+  console.log(`The quotient of ${a} and ${b} is ${quotient}`);
+  return quotient;
 }
 
 /**
@@ -57,7 +73,24 @@ function divide(a, b) {
 function power(base, exponent) {
   // TODO: Implement exponentiation
   // Hint: Use Math.pow() or the ** operator
+  let result = Math.pow(base, exponent);
+  console.log(`The result of ${base} raised to the power of ${exponent} is ${result}`);
+  return result;
+}
+
+function main() {
+  let a = 1;
+  let b = 0;
+
+  add (a, b);
+  subtract (a, b);
+  multiply (a, b);
+  divide (a, b);
+  power (a, b);
+
 }
 
 // Export all functions
 export { add, subtract, multiply, divide, power };
+
+main();
