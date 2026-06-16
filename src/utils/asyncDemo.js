@@ -20,7 +20,7 @@ function fetchUserCallback(userId, callback) {
     // TODO: Complete this callback example
     // Hint: Call the callback with (null, userData) for success
     // or (error, null) for failure
-
+    const error = new Error('Invalid User ID');
     if (userId > 0) {
       const userData = {
         id: userId,
@@ -28,8 +28,10 @@ function fetchUserCallback(userId, callback) {
         email: `user${userId}@example.com`,
       };
       // Call callback with success data
+      callback(null, userData);
     } else {
       // Call callback with error
+      callback(error, null);
     }
   }, 1000);
 }
@@ -39,9 +41,17 @@ function fetchUserCallback(userId, callback) {
  */
 function demonstrateCallbacks() {
   console.log('\n=== Callback Demo ===');
+  fetchUserCallback(1, (error, userData) => {
+    if (error) {
+      console.error(error.message);
+    } else {
+      console.log(userData);
+    }
+  });
+}
   // TODO: Call fetchUserCallback and handle the result
   // Hint: Pass a callback function that logs the result or error
-}
+
 
 // ============================================
 // 2. PROMISES
