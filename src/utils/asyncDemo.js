@@ -78,8 +78,10 @@ function fetchUserPromise(userId) {
           email: `user${userId}@example.com`,
         };
         // Resolve with user data
+        resolve(userData);
       } else {
         // Reject with error
+        reject(new Error ('Invalid User ID'));
       }
     }, 1000);
   });
@@ -93,6 +95,13 @@ function demonstratePromises() {
   // TODO: Call fetchUserPromise and chain .then() and .catch()
   // Hint: Use .then() to handle success and .catch() to handle errors
   // Log the results to console
+  fetchUserPromise(1)
+    .then(userData => {
+      console.log(userData);
+    })
+    .catch(error => {
+      console.error(error);
+    });
 }
 
 // ============================================
@@ -107,6 +116,11 @@ function demonstratePromises() {
 function delay(ms) {
   // TODO: Return a promise that resolves after ms milliseconds
   // Hint: Use setTimeout inside a Promise
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
 }
 
 /**
@@ -119,6 +133,16 @@ async function fetchMultipleUsers(userIds) {
   // Hint: Use a loop and await fetchUserPromise for each ID
   // Use try/catch to handle errors
   // Return an array of all user data
+  let users = [];
+  for (const id of userIds) {
+    try {
+      const userData = await fetchUserPromise(id);
+      users.push(userData);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  return users;
 }
 
 /**
@@ -129,6 +153,12 @@ async function demonstrateAsyncAwait() {
   // TODO: Call fetchMultipleUsers with an array of user IDs
   // Use try/catch to handle any errors
   // Log the results
+  try {
+    const users = await fetchMultipleUsers([1, 2, 3]);
+    console.log(users);
+  } catch (error) {
+    console.error("Failed to fetch users");
+  }
 }
 
 // ============================================
@@ -144,6 +174,14 @@ async function fetchUsersParallel(userIds) {
   // TODO: Implement this using Promise.all()
   // Hint: Map userIds to promises, then use Promise.all()
   // This is faster than sequential fetching!
+  const userPromises = userIds.map(id => fetchUserPromise(id));
+  try {
+    const users = await Promise.all(userPromises);
+    return users;
+  } catch (error) {
+    console.error("Failed to fetch users in parallel");
+    return [];
+  }
 }
 
 // Export functions
