@@ -37,6 +37,16 @@ function addNote(title, content) {
   // 3. Set both createdAt and updatedAt to current date (new Date())
   // 4. Push the note to the notes array
   // 5. Return the created note
+  const newNote = {
+    id: nextId,
+    title: title,
+    content: content,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+  notes.push(newNote);
+  nextId++;
+  return newNote; 
 }
 
 // ============================================
@@ -51,6 +61,7 @@ function getAllNotes() {
   // TODO: Implement getAllNotes
   // Hint: Return a copy of the notes array to prevent external modification
   // You can use the spread operator [...notes] or notes.slice()
+  return [...notes];
 }
 
 /**
@@ -62,6 +73,11 @@ function getNoteById(id) {
   // TODO: Implement getNoteById
   // Hint: Use the find() method to search the notes array
   // Return the found note or null
+  const finder = notes.find(note => note.id === id);
+  if (!finder){
+    return null;
+  }
+  return finder;
 }
 
 /**
