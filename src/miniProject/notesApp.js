@@ -90,6 +90,12 @@ function searchNotes(keyword) {
   // Hint: Use filter() to find notes where title or content includes the keyword
   // Consider converting to lowercase for case-insensitive search
   // Return array of matching notes (empty array if none found)
+  const lowerKeyword = keyword.toLowerCase();   
+  const results = notes.filter(note =>
+    note.title.toLowerCase().includes(lowerKeyword) ||
+    note.content.toLowerCase().includes(lowerKeyword)
+  );
+  return results;   
 }
 
 // ============================================
@@ -112,6 +118,18 @@ function updateNote(id, newTitle, newContent) {
   // 4. Update content if newContent is provided
   // 5. Update the updatedAt timestamp to current date
   // 6. Return the updated note
+    const noteToUpdate = notes.find(note => note.id === id);
+    if (!noteToUpdate) {
+        return null;
+    }
+    if (newTitle !== undefined) {
+        noteToUpdate.title = newTitle;
+    }
+    if (newContent !== undefined) {
+        noteToUpdate.content = newContent;
+    }
+    noteToUpdate.updatedAt = new Date();
+    return noteToUpdate;  
 }
 
 // ============================================
@@ -127,6 +145,12 @@ function deleteNote(id) {
   // TODO: Implement deleteNote
   // Hint: Use findIndex() to locate the note, then splice() to remove it
   // Return true if deleted, false if note wasn't found
+  const index = notes.findIndex(note => note.id === id);
+  if (index !== -1) {
+    notes.splice(index, 1);
+    return true;
+  }
+  return false; 
 }
 
 /**
@@ -140,6 +164,10 @@ function deleteAllNotes() {
   // 2. Clear the notes array
   // 3. Reset nextId to 1
   // 4. Return the count of deleted notes
+  const count = notes.length;
+  notes.length = 0;
+  nextId = 1;
+  return count;
 }
 
 // ============================================
@@ -153,6 +181,7 @@ function deleteAllNotes() {
 function getNotesCount() {
   // TODO: Implement getNotesCount
   // Hint: Return the length of the notes array
+  return notes.length;
 }
 
 /**
@@ -165,6 +194,15 @@ function getNotesSortedByDate(ascending = false) {
   // Hint: Create a copy of notes array, then use sort() with a compare function
   // Compare createdAt dates
   // Return the sorted array
+  const sortedNotes = [...notes];
+  sortedNotes.sort(function (a, b) {
+    if (ascending) {
+      return new Date(a.createdAt) - new Date(b.createdAt);
+    } else {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    }
+  });
+  return sortedNotes;
 }
 
 // Export all functions
